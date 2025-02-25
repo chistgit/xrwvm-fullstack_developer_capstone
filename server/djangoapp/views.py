@@ -140,13 +140,31 @@ def get_dealer_reviews(request, dealer_id):
     else:
         return JsonResponse({"status":400,"message":"Bad Request"})
 
+# def add_review(request):
+#     if(request.user.is_anonymous == False):
+#         data = json.loads(request.body)
+#         try:
+#             response = post_review(data)
+#             return JsonResponse({"status":200})
+#         except:
+#             return JsonResponse({"status":401,"message":"Error in posting review"})
+#     else:
+#         return JsonResponse({"status":403,"message":"Unauthorized"})
+
 def add_review(request):
-    if(request.user.is_anonymous == False):
-        data = json.loads(request.body)
-        try:
-            response = post_review(data)
-            return JsonResponse({"status":200})
-        except:
-            return JsonResponse({"status":401,"message":"Error in posting review"})
-    else:
-        return JsonResponse({"status":403,"message":"Unauthorized"})
+    data = json.loads(request.body)
+    
+    try:
+        # If the user is logged in, add user-related information (if needed)
+        if not request.user.is_anonymous:
+            data['username'] = request.user.username  # or any other user info
+        
+        # Post the review (calling your post_review function)
+        response = post_review(data)
+        
+        return JsonResponse({"status": 200, "message": "Review posted successfully"})
+    
+    except Exception as e:
+        # Catch specific errors or log the exception if necessary
+        print(f"Error: {e}")
+        return JsonResponse({"status": 401, "message": "Error in posting review"})

@@ -22,10 +22,12 @@ const PostReview = () => {
   let carmodels_url = root_url+`djangoapp/get_cars`;
 
   const postreview = async ()=>{
-    let name = sessionStorage.getItem("firstname")+" "+sessionStorage.getItem("lastname");
+    // let name = sessionStorage.getItem("firstname")+" "+sessionStorage.getItem("lastname");
+    let name;
     //If the first and second name are stores as null, use the username
     if(name.includes("null")) {
-      name = sessionStorage.getItem("username");
+    //   name = sessionStorage.getItem("username");
+    name = "Roger"
     }
     if(!model || review === "" || date === "" || year === "" || model === "") {
       alert("All details are mandatory")
